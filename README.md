@@ -4,7 +4,7 @@ MicroPython TooGoodToGo watcher
 
 ## Setup: 
 
--Install micropython onto esp32 board-
+-Install micropython onto esp32 board
 
 -copy boot.py,tgtg.py and reqs.py onto esp32 via tools like ampy
 
@@ -21,4 +21,4 @@ MicroPython TooGoodToGo watcher
 
 ## Usage:
 
-ESP32 fetches every 10 seconds the favorite TGTG items and bot sends message to telegram messenger.
+ESP32 connects to wifi via essid and pw and fetches every 10 seconds the favorite items of TGTG account via tgtg_email and tgtg_pw. Telegram bot with token telegram_token sends message to telegram chat with telegram_chat_id.
