@@ -126,6 +126,7 @@ class TgtgClient:
 				raise Exception("Login Error")
 			response.close()
 
+#gets favorite items from tgtg api
 	def get_items(
 		self,
 		*,
@@ -145,7 +146,6 @@ class TgtgClient:
 		hidden_only=False,
 		we_care_only=False,
 	):
-	"""gets favorite items from tgtg api"""
 		self._login()
 
 		# fields are sorted like in the app
