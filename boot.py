@@ -14,7 +14,8 @@ import config
 # ampy --port COM3 put reqs.py
 # ampy --port COM3 put tgtg.py
 
-NOTIFICATION_REFRESH = 10 * 60 #10 minutes: time in seconds that a new message might be send
+NOTIFICATION_REFRESH = 20 * 1000 # every 20.000 milliseconds refresh and fetch new data
+WORKER_UPDATE = 60 * 60 #time in seconds it updates admin if set 
 wlan = None
 
 def initWlan():
@@ -45,8 +46,16 @@ def sendMessage(message):
 	answer = requests.post(url, json=params)
 	answer.close()
 
+def sendActivity(chat_id,message = "I am still working"):
+	"""sends message to admin with admin_chat_id set in config.py"""
+	params = {"chat_id": chat_id, "text":message}
+	url = "https://api.telegram.org/bot" + token + "/sendMessage"
+	answer = requests.post(url, json=params)
+	answer.close()
+
 def update():
 	"""fetches items from tgtg API and sends telegram notification"""
+	print("fetching new data")
 	global postedItems
 	items = tg.get_items() #fetches items from api
 	for item in items:
@@ -56,6 +65,7 @@ def update():
 		branch = item['store']['branch']
 		if item['items_available'] > 0:
 			if not id in postedItems: #only sends message if not posted before
+				print("just posted item with id " + str(id))
 				sendMessage(getMessageText(store,branch,name))
 				postedItems.append(id)
 		else:
@@ -81,9 +91,14 @@ except:
 	print("could not set up TGTG")
 
 initWlan()
-print("wlan initialized")
-
+sendActivity(config.admin_chat_id,"rebooted")
+time = utime.mktime(utime.localtime())
+print("all set up.")
 while True:
 	update()
-	utime.sleep_ms(10000)
-
+	now =utime.mktime(utime.localtime())
+	if config.admin_chat_id:
+		if now-time > WORKER_UPDATE:
+			time = now
+			sendActivity(config.admin_chat_id)
+	utime.sleep_ms(NOTIFICATION_REFRESH)

@@ -16,9 +16,10 @@ MicroPython TooGoodToGo watcher
     tgtg_pw= TGTGPACCOUNTPASSWORD
     telegram_token = TELEGRAMBOTTOKEN
     telegram_chat_id = TELEGRAMCHATID
+    admin_chat_id = ADMINTELEGRAMCHATID
 
 -copy config.py onto board and it should run
 
 ## Usage:
 
-ESP32 connects to wifi via essid and pw and fetches every 10 seconds the favorite items of TGTG account via tgtg_email and tgtg_pw. Telegram bot with token telegram_token sends message to telegram chat with telegram_chat_id.
+ESP32 connects to wifi via essid and pw and fetches every 10 seconds the favorite items of TGTG account via tgtg_email and tgtg_pw. Telegram bot with token telegram_token sends message to telegram chat with telegram_chat_id. admin_chat_id can be an empty string if not needed. It sends an update to indicate server is still running.
