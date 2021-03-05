@@ -4,6 +4,7 @@ import reqs as requests
 import ujson
 from tgtg import TgtgClient
 import config 
+import os
 
 #flashing micropython: 
 # esptool.py --chip esp32 --port COM3 erase_flash
@@ -91,6 +92,15 @@ except:
 	print("could not set up TGTG")
 
 initWlan()
+config_path = "config.json"
+try:
+	f = open(config_path, "r")
+	f.close()
+	os.remove(config_path)
+	print("removed old config.json")
+except:# open failed
+	pass
+
 sendActivity(config.admin_chat_id,"rebooted")
 time = utime.mktime(utime.localtime())
 print("all set up.")
