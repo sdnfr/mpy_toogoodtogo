@@ -9,6 +9,7 @@ LOGIN_ENDPOINT = "auth/v1/loginByEmail"
 REFRESH_ENDPOINT = "auth/v1/token/refresh"
 ALL_BUSINESS_ENDPOINT = "map/v1/listAllBusinessMap"
 USER_AGENT = "TGTG (iPhone)"
+USER_AGENT = "TGTG/20.10.2 Stefan/2.1.0 (Linux; U; Android 6.0.1; Nexus 5 Build/M4B30"
 DEFAULT_ACCESS_TOKEN_LIFETIME = 3600 * 4  # 4 hours
 
 class TgtgClient:
@@ -113,6 +114,7 @@ class TgtgClient:
 					"You must fill email and password or access_token and user_id"
 				)
 			response = requests.post(self._get_url(LOGIN_ENDPOINT),headers=self._headers,json={"device_type": "IPHONE","email": self.email,"password": self.password})
+			response = requests.post(self._get_url(LOGIN_ENDPOINT),headers=self._headers,json={"device_type": "IOS","email": self.email,"password": self.password})
 			try:
 				login_response = response.json()
 				response.close()
